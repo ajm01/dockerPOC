@@ -1,0 +1,4 @@
+*.versionsBackup
+target/
+bin/
+
