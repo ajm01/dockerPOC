@@ -25,6 +25,4 @@ ENV PATH=/wlp/bin:/opt/ol/docker/:$PATH \
 #    && ln -s /logs $WLP_OUTPUT_DIR/BoostServer/logs \
 #    && ln -s /liberty /wlp
 
-#RUN ls -l /wlp
-
 CMD ["/wlp/bin/server", "run", "BoostServer"]

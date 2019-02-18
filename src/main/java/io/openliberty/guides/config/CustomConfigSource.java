@@ -92,7 +92,6 @@ public class CustomConfigSource implements ConfigSource {
 
     public String readFile(String fileName) {
 				
-		System.out.println("AJM: got the json file now using an inputstream ...");
 		java.io.InputStream instr = getClass().getResourceAsStream("/CustomConfigSource.json");
 		
         String result = "";
