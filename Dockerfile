@@ -1,14 +1,34 @@
+FROM maven:3.6.0-ibmjava-8 AS MAVEN_TOOL_CHAIN
+
+RUN apt-get update
+RUN apt-get -y install git --fix-missing
+
+#build boost
+RUN mkdir /tmp/boostrepo
+WORKDIR /tmp/boostrepo
+RUN git clone https://github.com/OpenLiberty/boost.git
+WORKDIR /tmp/boostrepo/boost
+
+RUN ./boost-maven.sh
+
+#boost package the app
+COPY pom.xml /tmp/
+COPY src /tmp/src/
+WORKDIR /tmp/ 
+RUN mvn package
+
+#config the env to run app
 FROM ibmjava:8-jre
-#FROM maven:3.6.0-ibmjava-8
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/.  /
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/microprofile-health-1.0-SNAPSHOT.war /wlp/usr/servers/BoostServer/apps/
+
+RUN rm -rf /wlp/usr/servers/BoostServer/apps/*.xml
 
 RUN apt-get update
 RUN apt-get -y install vim
 RUN apt-get -y install curl
 RUN apt-get -y install zip
-
-COPY ./target/liberty/.  /
-COPY ./target/microprofile-health-1.0-SNAPSHOT.war /wlp/usr/servers/BoostServer/apps/
-RUN rm -rf /wlp/usr/servers/BoostServer/apps/*.xml
+RUN apt-get -y install maven
 
 EXPOSE 9080
 
