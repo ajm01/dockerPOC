@@ -3,12 +3,16 @@ FROM maven:3.6.0-ibmjava-8 AS MAVEN_TOOL_CHAIN
 RUN apt-get update && apt-get -y install git --fix-missing
 
 #build boost
-RUN mkdir /tmp/boostrepo
+RUN mkdir -p /tmp/boostrepo
 WORKDIR /tmp/boostrepo
-RUN git clone https://github.com/OpenLiberty/boost.git
-WORKDIR /tmp/boostrepo/boost
 
-RUN ./boost-maven.sh
+# only clone boost if there is something new in boost repo
+ARG SHA=LATEST
+RUN SHA=${SHA} \
+    git clone https://github.com/OpenLiberty/boost.git &&\
+	cd boost &&\
+	./boost-maven.sh
+	
 
 RUN apt-get update
 RUN apt-get -y install apt-utils
