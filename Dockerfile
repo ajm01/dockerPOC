@@ -40,6 +40,7 @@ COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/LICENSE  /wlp
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/NOTICES  /wlp
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/README.TXT  /wlp
 
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/usr/.  /wlp
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/microprofile-health-1.0-SNAPSHOT.war /wlp/usr/servers/BoostServer/apps/
 
 RUN rm -rf /wlp/usr/servers/BoostServer/apps/*.xml
