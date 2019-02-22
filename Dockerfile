@@ -29,7 +29,17 @@ RUN mvn package
 
 #config the env to run app
 FROM ibmjava:8-jre
-COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/.  /
+RUN mkdir wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/bin/.  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/clients/.  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/dev/.  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/lib/.  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/templates/.  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/.installed  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/LICENSE  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/NOTICES  /wlp
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/liberty/wlp/README.TXT  /wlp
+
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/microprofile-health-1.0-SNAPSHOT.war /wlp/usr/servers/BoostServer/apps/
 
 RUN rm -rf /wlp/usr/servers/BoostServer/apps/*.xml
