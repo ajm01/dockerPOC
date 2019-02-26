@@ -27,15 +27,17 @@ import java.io.InputStreamReader;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
 public class CustomConfigSource implements ConfigSource {
-
+	
+	// another edit
     //String fileLocation = System.getProperty("user.dir").split("target")[0]
     //        + "src/main/resources/CustomConfigSource.json";
 	
 	//static InputStream in = getClass().getResourceAsStream("/CustomConfigSource.json");
 	
-	java.net.URL fileUrl = this.getClass().getResource("/CustomConfigSource.json");
+	//java.net.URL fileUrl = this.getClass().getResource("/CustomConfigSource.json");
 
-	String fileLocation = fileUrl.getFile();
+	//String fileLocation = fileUrl.getFile();
+	String fileLocation = "/CustomConfigSource.json";
 
     @Override
     public int getOrdinal() {
@@ -92,7 +94,7 @@ public class CustomConfigSource implements ConfigSource {
 
     public String readFile(String fileName) {
 				
-		java.io.InputStream instr = getClass().getResourceAsStream("/CustomConfigSource.json");
+		java.io.InputStream instr = getClass().getResourceAsStream(fileName);
 		
         String result = "";
         try {
